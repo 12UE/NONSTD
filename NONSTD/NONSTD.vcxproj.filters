@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\nonstd">
+      <UniqueIdentifier>{41fab154-9f7e-4506-aa7f-b55adb218115}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="NONSTD.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="nonstd\_Algorithm.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Crtstrlib.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Deque.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Hash.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Limits.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_List.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Map.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Math.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Mutex.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_NonstdInt.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Predefine.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Random.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Shared_ptr.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Stack.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_String_convert.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_XTemplates.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Time.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Unique_ptr.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Ustring.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Vector.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_WDKRuntime.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Weak_ptr.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Allocator.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Xmeta.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleClock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Iterator_base.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Traits.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_RBTree.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Initializer_list.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_NonStdMacros.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Functors.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Array.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Reverse_iterator.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Tuple.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Utility.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Compare.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
