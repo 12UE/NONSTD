@@ -9,6 +9,10 @@
 #include"_Functors.h"
 #include"_Utility.h"
 
+//xor
+#include"_XorLib.h"
+
+
 
 //µü´úÆ÷
 #include"_Iterator_base.h"

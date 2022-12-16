@@ -98,20 +98,19 @@ namespace nonstd {
         template< class... Args >
         _CONSTEXPR _INLINE reference emplace_back(Args... args) {
             if (m_size == m_capacity) {
-                if (m_capacity == 0) {
-                    m_capacity = 1;
-                }else {
-                    m_capacity *= 2;
-                }
+                m_capacity = (m_capacity == 0) ? 1 : m_capacity * 2;
                 pointer new_data = Allocator::Alloc(m_capacity);
-                _DeepCopy_n(new_data, m_data, m_size);
+                // π”√∏≥÷µøΩ±¥
+                for (size_type i = 0; i < m_size; ++i) {
+                    new_data[i] = m_data[i];
+                }
                 Allocator::Free(m_data);
                 m_data = new_data;
             }
             m_data[m_size++] = T(args...);
             return m_data[m_size - 1];
-           
         }
+
         _CONSTEXPR _INLINE void pop_back() {
             if (m_size > 0) {
                 --m_size;

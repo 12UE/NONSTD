@@ -2,7 +2,7 @@
 //
 #include<Windows.h>
 #include<stdio.h>
-//#include <iostream>
+#include <iostream>
 #include"nonstd/_Predefine.h"
 #include"SimpleClock.h"
 //#include<utility>
@@ -34,18 +34,8 @@ public:
 																						  
 int main()
 {
-	nonstd::string str = "Hello World";
-	nonstd::vector<nonstd::string> vec;
-	for (int i = 0; i < 10; i++) {
-		vec.push_back(str);
-	}
 	
-	
-	//打印
-	for (auto& i : vec) {
-		printf("%s\n", i.c_str());
-	}
-
+	std::cout << xor_str("Hello Wolrd") << std::endl;
 	
 	return 0;
 }
