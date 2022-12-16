@@ -106,6 +106,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,6 +123,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,14 +147,12 @@
     <ClInclude Include="nonstd\_Hash.h" />
     <ClInclude Include="nonstd\_Limits.h" />
     <ClInclude Include="nonstd\_List.h" />
-    <ClInclude Include="nonstd\_Map.h" />
     <ClInclude Include="nonstd\_Math.h" />
     <ClInclude Include="nonstd\_Mutex.h" />
     <ClInclude Include="nonstd\_NonstdInt.h" />
     <ClInclude Include="nonstd\_NonStdMacros.h" />
     <ClInclude Include="nonstd\_Predefine.h" />
     <ClInclude Include="nonstd\_Random.h" />
-    <ClInclude Include="nonstd\_RBTree.h" />
     <ClInclude Include="nonstd\_Reverse_iterator.h" />
     <ClInclude Include="nonstd\_Shared_ptr.h" />
     <ClInclude Include="nonstd\_Stack.h" />
@@ -160,7 +160,6 @@
     <ClInclude Include="nonstd\_Traits.h" />
     <ClInclude Include="nonstd\_Tuple.h" />
     <ClInclude Include="nonstd\_Utility.h" />
-    <ClInclude Include="nonstd\_XTemplates.h" />
     <ClInclude Include="nonstd\_Time.h" />
     <ClInclude Include="nonstd\_Unique_ptr.h" />
     <ClInclude Include="nonstd\_Ustring.h" />

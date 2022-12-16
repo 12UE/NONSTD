@@ -36,6 +36,8 @@ namespace nonstd {
             --p;
             return tmp;
         }
+		
+        
         _Iterator_base operator+(difference_type n) {
             _Iterator_base tmp = *this;
             tmp.p += n;
@@ -63,6 +65,7 @@ namespace nonstd {
         pointer operator->() {
             return p;
         }
+        pointer operator&() const { return p; }
         bool operator==(const _Iterator_base& other) {
             return p == other.p;
         }

@@ -35,7 +35,8 @@ namespace nonstd {
 	
 	template<bool B, class T = void>struct enable_if {};
 	template<class T> struct enable_if<true, T> { typedef T type; };//¿‡À∆”⁄std::enable_if
-	template<bool B, class T = void>using enable_if_t = typename enable_if<B, T>::type;//
+	
+	template<bool B, class T = void>using enable_if_t = typename enable_if<B, T>::type;
 	
 	template<class T> struct remove_reference { typedef T type; };
 	template<class T> struct remove_reference<T&> { typedef T type; };
@@ -118,7 +119,7 @@ namespace nonstd {
 	using _Const_thru_ref = typename remove_reference<_Ty>::_Const_thru_ref_type;
 
 	template <class _Ty>
-	using _Remove_cvref_t _MSVC_KNOWN_SEMANTICS = remove_cv_t<remove_reference_t<_Ty>>;
+	using _Remove_cvref_t [[msvc::known_semantics]] = remove_cv_t<remove_reference_t<_Ty>>;
 
 
 	template <class _Ty>
@@ -160,7 +161,7 @@ namespace nonstd {
 		using type = _Ty;
 	};
 	template <class _Ty>
-	using _Identity_t _MSVC_KNOWN_SEMANTICS = typename _Identity<_Ty>::type;
+	using _Identity_t [[msvc::known_semantics]] = typename _Identity<_Ty>::type;
 	
 	template<typename T>
 	struct is_void {
@@ -1489,12 +1490,12 @@ namespace nonstd {
 
 	template <class _Ty>
 	_NODISCARD constexpr _Ty&& forward(
-		std::remove_reference_t<_Ty>&_Arg) noexcept { // forward an lvalue as either an lvalue or an rvalue
+		nonstd::remove_reference_t<_Ty>&_Arg) noexcept { // forward an lvalue as either an lvalue or an rvalue
 		return static_cast<_Ty&&>(_Arg);
 	}
 
 	template <class _Ty>
-	_NODISCARD constexpr _Ty&& forward(std::remove_reference_t<_Ty>&& _Arg) noexcept { // forward an rvalue as an rvalue
+	_NODISCARD constexpr _Ty&& forward(nonstd::remove_reference_t<_Ty>&& _Arg) noexcept { // forward an rvalue as an rvalue
 		static_assert(!is_lvalue_reference_v<_Ty>, "bad forward call");
 		return static_cast<_Ty&&>(_Arg);
 	}
@@ -1625,13 +1626,13 @@ namespace nonstd {
 	struct _Invoker1<_Callable, _Ty1, _Removed_cvref, false, false> : _Invoker_functor {};
 
 	template <class _Callable>
-	_CONSTEXPR17 auto invoke(_Callable&& _Obj) noexcept(noexcept(static_cast<_Callable&&>(_Obj)()))
+	constexpr auto invoke(_Callable&& _Obj) noexcept(noexcept(static_cast<_Callable&&>(_Obj)()))
 		-> decltype(static_cast<_Callable&&>(_Obj)()) {
 		return static_cast<_Callable&&>(_Obj)();
 	}
-
+	
 	template <class _Callable, class _Ty1, class... _Types2>
-	_CONSTEXPR17 auto invoke(_Callable&& _Obj, _Ty1&& _Arg1, _Types2&&... _Args2) noexcept(
+	constexpr auto invoke(_Callable&& _Obj, _Ty1&& _Arg1, _Types2&&... _Args2) noexcept(
 		noexcept(_Invoker1<_Callable, _Ty1>::_Call(
 			static_cast<_Callable&&>(_Obj), static_cast<_Ty1&&>(_Arg1), static_cast<_Types2&&>(_Args2)...)))
 		-> decltype(_Invoker1<_Callable, _Ty1>::_Call(
@@ -1814,7 +1815,7 @@ namespace nonstd {
 #define _FUNCTION_ARGS(CALL_OPT, CV_OPT, REF_OPT, NOEXCEPT_OPT)                                           \
     template <class _Ret, class... _Types>                                                                \
     struct _Function_args<_Ret CALL_OPT(_Types...) CV_OPT REF_OPT NOEXCEPT_OPT> : _Arg_types<_Types...> { \
-        using _RESULT_TYPE_NAME  = _Ret;                                 \
+        using _Unnameable_result  = _Ret;                                 \
     };
 
 	//_NON_MEMBER_CALL_CV_REF_NOEXCEPT(_FUNCTION_ARGS)
@@ -1823,7 +1824,7 @@ namespace nonstd {
 #define _FUNCTION_ARGS_ELLIPSIS(CV_REF_NOEXCEPT_OPT)                                                            \
     template <class _Ret, class... _Types>                                                                      \
     struct _Function_args<_Ret(_Types..., ...) CV_REF_NOEXCEPT_OPT> { /* no calling conventions for ellipsis */ \
-        using _RESULT_TYPE_NAME  = _Ret;                                       \
+        using _Unnameable_result  = _Ret;                                       \
     };
 
 		_CLASS_DEFINE_CV_REF_NOEXCEPT(_FUNCTION_ARGS_ELLIPSIS)
@@ -1835,7 +1836,7 @@ namespace nonstd {
 	
 		template <class _Ty>
 	struct _Weak_result_type<_Ty, void_t<typename _Ty::result_type>> { // defined if _Ty::result_type exists
-		using _RESULT_TYPE_NAME  = typename _Ty::result_type;
+		using _Unnameable_result  = typename _Ty::result_type;
 	};
 	
 
@@ -1846,7 +1847,7 @@ namespace nonstd {
 		template <class _Ty>
 	struct _Weak_argument_type<_Ty, void_t<typename _Ty::argument_type>> : _Weak_result_type<_Ty> {
 		// defined if _Ty::argument_type exists
-		using _ARGUMENT_TYPE_NAME  = typename _Ty::argument_type;
+		using _Unnameable_argument  = typename _Ty::argument_type;
 	};
 	
 
@@ -1908,16 +1909,16 @@ namespace nonstd {
 		template <class _Uty, enable_if_t<conjunction_v<negation<is_same<_Remove_cvref_t<_Uty>, reference_wrapper>>,
 			_Refwrap_has_ctor_from<_Ty, _Uty>>,
 			int> = 0>
-		_CONSTEXPR20 reference_wrapper(_Uty&& _Val) noexcept(noexcept(_Refwrap_ctor_fun<_Ty>(nonstd:: declval<_Uty>()))) {
+		constexpr reference_wrapper(_Uty&& _Val) noexcept(noexcept(_Refwrap_ctor_fun<_Ty>(nonstd:: declval<_Uty>()))) {
 			_Ty& _Ref = static_cast<_Uty&&>(_Val);
 			_Ptr = nonstd:: addressof(_Ref);
 		}
 
-		_CONSTEXPR20 operator _Ty& () const noexcept {
+		constexpr operator _Ty& () const noexcept {
 			return *_Ptr;
 		}
 
-		_NODISCARD _CONSTEXPR20 _Ty& get() const noexcept {
+		_NODISCARD constexpr _Ty& get() const noexcept {
 			return *_Ptr;
 		}
 
@@ -1926,7 +1927,7 @@ namespace nonstd {
 
 	public:
 		template <class... _Types>
-		_CONSTEXPR20 auto operator()(_Types&&... _Args) const
+		constexpr auto operator()(_Types&&... _Args) const
 			noexcept(noexcept(nonstd:: invoke(*_Ptr, static_cast<_Types&&>(_Args)...))) // strengthened
 			-> decltype(nonstd:: invoke(*_Ptr, static_cast<_Types&&>(_Args)...)) {
 			return nonstd:: invoke(*_Ptr, static_cast<_Types&&>(_Args)...);
@@ -1939,7 +1940,7 @@ namespace nonstd {
 #endif // _HAS_CXX17
 
 	template <class _Ty>
-	_NODISCARD _CONSTEXPR20 reference_wrapper<_Ty> ref(_Ty& _Val) noexcept {
+	_NODISCARD constexpr reference_wrapper<_Ty> ref(_Ty& _Val) noexcept {
 		return reference_wrapper<_Ty>(_Val);
 	}
 
@@ -1947,12 +1948,12 @@ namespace nonstd {
 	void ref(const _Ty&&) = delete;
 
 	template <class _Ty>
-	_NODISCARD _CONSTEXPR20 reference_wrapper<_Ty> ref(reference_wrapper<_Ty> _Val) noexcept {
+	_NODISCARD constexpr reference_wrapper<_Ty> ref(reference_wrapper<_Ty> _Val) noexcept {
 		return _Val;
 	}
 
 	template <class _Ty>
-	_NODISCARD _CONSTEXPR20 reference_wrapper<const _Ty> cref(const _Ty& _Val) noexcept {
+	_NODISCARD constexpr reference_wrapper<const _Ty> cref(const _Ty& _Val) noexcept {
 		return reference_wrapper<const _Ty>(_Val);
 	}
 
@@ -1960,7 +1961,7 @@ namespace nonstd {
 	void cref(const _Ty&&) = delete;
 
 	template <class _Ty>
-	_NODISCARD _CONSTEXPR20 reference_wrapper<const _Ty> cref(reference_wrapper<_Ty> _Val) noexcept {
+	_NODISCARD constexpr reference_wrapper<const _Ty> cref(reference_wrapper<_Ty> _Val) noexcept {
 		return _Val;
 	}
 
@@ -1990,15 +1991,12 @@ namespace nonstd {
 	template <class _Ty>
 	struct _Is_nothrow_swappable;
 
-#if _HAS_CXX17
 	template <class _Ty, enable_if_t<is_move_constructible_v<_Ty>&& is_move_assignable_v<_Ty>, int> = 0>
-#else // ^^^ _HAS_CXX17 / !_HAS_CXX17 vvv
-	template <class _Ty, int _Enabled = 0>
-#endif // _HAS_CXX17
-	_CONSTEXPR20 void swap(_Ty&, _Ty&) noexcept(is_nothrow_move_constructible_v<_Ty>&& is_nothrow_move_assignable_v<_Ty>);
+
+	constexpr void swap(_Ty&, _Ty&) noexcept(is_nothrow_move_constructible_v<_Ty>&& is_nothrow_move_assignable_v<_Ty>);
 
 	template <class _Ty, size_t _Size, enable_if_t<_Is_swappable<_Ty>::value, int> = 0>
-	_CONSTEXPR20 void swap(_Ty(&)[_Size], _Ty(&)[_Size]) noexcept(_Is_nothrow_swappable<_Ty>::value);
+	constexpr void swap(_Ty(&)[_Size], _Ty(&)[_Size]) noexcept(_Is_nothrow_swappable<_Ty>::value);
 
 	template <class _Ty1, class _Ty2, class = void>
 	struct _Swappable_with_helper : false_type {}; // swap(declval<_Ty1>(), declval<_Ty2>()) is not valid
@@ -2087,10 +2085,9 @@ namespace nonstd {
 	_INLINE_VAR constexpr bool _Is_trivially_swappable_v = conjunction_v<is_trivially_destructible<_Ty>,
 		is_trivially_move_constructible<_Ty>, is_trivially_move_assignable<_Ty>, negation<_Has_ADL_swap<_Ty>>>;
 
-#ifdef __cpp_lib_byte
+
 	template <>
 	inline constexpr bool _Is_trivially_swappable_v<byte> = true;
-#endif // __cpp_lib_byte
 
 	template <class _Ty>
 	struct _Is_trivially_swappable : bool_constant<_Is_trivially_swappable_v<_Ty>> {
@@ -2194,8 +2191,8 @@ namespace nonstd {
 
 	template <class _Kty, bool _Enabled>
 	struct _Conditionally_enabled_hash { // conditionally enabled hash base
-		using _ARGUMENT_TYPE_NAME  = _Kty;
-		using _RESULT_TYPE_NAME  = size_t;
+		using _Unnameable_argument  = _Kty;
+		using _Unnameable_result  = size_t;
 
 		_NODISCARD size_t operator()(const _Kty& _Keyval) const
 			noexcept(noexcept(hash<_Kty>::_Do_hash(_Keyval))) /* strengthened */ {
@@ -2224,8 +2221,8 @@ namespace nonstd {
 
 	template <>
 	struct hash<float> {
-		using _ARGUMENT_TYPE_NAME  = float;
-		using _RESULT_TYPE_NAME  = size_t;
+		using _Unnameable_argument  = float;
+		using _Unnameable_result  = size_t;
 		_NODISCARD size_t operator()(const float _Keyval) const noexcept {
 			return _Hash_representation(_Keyval == 0.0F ? 0.0F : _Keyval); // map -0 to 0
 		}
@@ -2233,8 +2230,8 @@ namespace nonstd {
 
 	template <>
 	struct hash<double> {
-		using _ARGUMENT_TYPE_NAME  = double;
-		using _RESULT_TYPE_NAME  = size_t;
+		using _Unnameable_argument  = double;
+		using _Unnameable_result  = size_t;
 		_NODISCARD size_t operator()(const double _Keyval) const noexcept {
 			return _Hash_representation(_Keyval == 0.0 ? 0.0 : _Keyval); // map -0 to 0
 		}
@@ -2242,8 +2239,8 @@ namespace nonstd {
 
 	template <>
 	struct hash<long double> {
-		using _ARGUMENT_TYPE_NAME  = long double;
-		using _RESULT_TYPE_NAME  = size_t;
+		using _Unnameable_argument  = long double;
+		using _Unnameable_result  = size_t;
 		_NODISCARD size_t operator()(const long double _Keyval) const noexcept {
 			return _Hash_representation(_Keyval == 0.0L ? 0.0L : _Keyval); // map -0 to 0
 		}
@@ -2251,8 +2248,8 @@ namespace nonstd {
 
 	template <>
 	struct hash<nullptr_t> {
-		using _ARGUMENT_TYPE_NAME  = nullptr_t;
-		using _RESULT_TYPE_NAME  = size_t;
+		using _Unnameable_argument  = nullptr_t;
+		using _Unnameable_result  = size_t;
 		_NODISCARD size_t operator()(nullptr_t) const noexcept {
 			void* _Null{};
 			return _Hash_representation(_Null);

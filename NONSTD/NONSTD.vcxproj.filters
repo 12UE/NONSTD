@@ -41,9 +41,6 @@
     <ClInclude Include="nonstd\_List.h">
       <Filter>头文件\nonstd</Filter>
     </ClInclude>
-    <ClInclude Include="nonstd\_Map.h">
-      <Filter>头文件\nonstd</Filter>
-    </ClInclude>
     <ClInclude Include="nonstd\_Math.h">
       <Filter>头文件\nonstd</Filter>
     </ClInclude>
@@ -66,9 +63,6 @@
       <Filter>头文件\nonstd</Filter>
     </ClInclude>
     <ClInclude Include="nonstd\_String_convert.h">
-      <Filter>头文件\nonstd</Filter>
-    </ClInclude>
-    <ClInclude Include="nonstd\_XTemplates.h">
       <Filter>头文件\nonstd</Filter>
     </ClInclude>
     <ClInclude Include="nonstd\_Time.h">
@@ -102,9 +96,6 @@
       <Filter>头文件\nonstd</Filter>
     </ClInclude>
     <ClInclude Include="nonstd\_Traits.h">
-      <Filter>头文件\nonstd</Filter>
-    </ClInclude>
-    <ClInclude Include="nonstd\_RBTree.h">
       <Filter>头文件\nonstd</Filter>
     </ClInclude>
     <ClInclude Include="nonstd\_Initializer_list.h">

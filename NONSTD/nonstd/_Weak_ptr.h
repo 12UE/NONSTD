@@ -1,6 +1,6 @@
 #pragma once
 namespace nonstd {
-    template<class T, class Alloc = allcator<T>>
+    template<class T, class Alloc = allocator<T>>
     class weak_ptr {
     public:
         weak_ptr() : ptr_(nullptr), ref_count_(nullptr) {}
@@ -17,16 +17,16 @@ namespace nonstd {
 
         ~weak_ptr() {
             if (ref_count_ && --(*ref_count_) == 0) {
-                Alloc::deallocate(ptr_);
-                Alloc::deallocate(ref_count_);
+                Alloc::Free(ptr_);
+                Alloc::Free(ref_count_);
             }
         }
 
         weak_ptr& operator=(const weak_ptr& other) {
             if (this != &other) {
                 if (ref_count_ && --(*ref_count_) == 0) {
-                    Alloc::deallocate(ptr_);
-                    Alloc::deallocate(ref_count_);
+                    Alloc::Free(ptr_);
+                    Alloc::Free(ref_count_);
                 }
                 ptr_ = other.ptr_;
                 ref_count_ = other.ref_count_;

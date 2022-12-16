@@ -164,10 +164,10 @@ namespace nonstd{
         constexpr tuple(const tuple&) noexcept /* strengthened */ {} // TRANSITION, ABI: should be defaulted
 
         template <class _Alloc>
-        _CONSTEXPR20 tuple(allocator_arg_t, const _Alloc&) noexcept /* strengthened */ {}
+        constexpr tuple(allocator_arg_t, const _Alloc&) noexcept /* strengthened */ {}
 
         template <class _Alloc>
-        _CONSTEXPR20 tuple(allocator_arg_t, const _Alloc&, const tuple&) noexcept /* strengthened */ {}
+        constexpr tuple(allocator_arg_t, const _Alloc&, const tuple&) noexcept /* strengthened */ {}
 
         template <class _Tag, enable_if_t<is_same_v<_Tag, nonstd:: _Exact_args_t>, int> = 0>
         constexpr tuple(_Tag) noexcept /* strengthened */ {}
@@ -177,7 +177,7 @@ namespace nonstd{
 
         constexpr tuple& operator=(const tuple&) = default;
 
-        _CONSTEXPR20 void swap(tuple&) noexcept {}
+        constexpr void swap(tuple&) noexcept {}
 
 
         constexpr bool _Equals(const tuple&) const noexcept {
@@ -281,14 +281,14 @@ namespace nonstd{
         template <class _Alloc, class _This2 = _This,
             enable_if_t<conjunction_v<nonstd:: is_default_constructible<_This2>, nonstd:: is_default_constructible<_Rest>...>,
             int> = 0>
-        _CONSTEXPR20 explicit(
+        constexpr explicit(
             !conjunction_v<_Is_implicitly_default_constructible<_This2>, _Is_implicitly_default_constructible<_Rest>...>)
             tuple(allocator_arg_t, const _Alloc& _Al)
             : _Mybase(allocator_arg, _Al), _Myfirst(_Al, allocator_arg) {}
 
         template <class _Alloc, class _This2 = _This,
             enable_if_t<_Tuple_constructible_v<tuple, const _This2&, const _Rest&...>, int> = 0>
-        _CONSTEXPR20 explicit(_Tuple_conditional_explicit_v<tuple, const _This2&, const _Rest&...>)
+        constexpr explicit(_Tuple_conditional_explicit_v<tuple, const _This2&, const _Rest&...>)
             tuple(allocator_arg_t, const _Alloc& _Al, const _This& _This_arg, const _Rest&... _Rest_arg)
             : tuple(_Alloc_exact_args_t{}, _Al, _This_arg, _Rest_arg...) {}
 
@@ -296,17 +296,17 @@ namespace nonstd{
             enable_if_t<conjunction_v<nonstd:: _Tuple_perfect_val<tuple, _This2, _Rest2...>,
             nonstd:: _Tuple_constructible_val<tuple, _This2, _Rest2...>>,
             int> = 0>
-            _CONSTEXPR20 explicit(_Tuple_conditional_explicit_v<tuple, _This2, _Rest2...>)
+            constexpr explicit(_Tuple_conditional_explicit_v<tuple, _This2, _Rest2...>)
             tuple(allocator_arg_t, const _Alloc& _Al, _This2&& _This_arg, _Rest2&&... _Rest_arg)
             : tuple(_Alloc_exact_args_t{}, _Al, nonstd:: forward<_This2>(_This_arg), nonstd:: forward<_Rest2>(_Rest_arg)...) {}
 
         template <class _Alloc, class _This2 = _This,
             enable_if_t<_Tuple_constructible_v<tuple, const _This2&, const _Rest&...>, int> = 0>
-        _CONSTEXPR20 tuple(allocator_arg_t, const _Alloc& _Al, const tuple& _Right)
+        constexpr tuple(allocator_arg_t, const _Alloc& _Al, const tuple& _Right)
             : tuple(_Alloc_unpack_tuple_t{}, _Al, _Right) {}
 
         template <class _Alloc, class _This2 = _This, enable_if_t<_Tuple_constructible_v<tuple, _This2, _Rest...>, int> = 0>
-        _CONSTEXPR20 tuple(allocator_arg_t, const _Alloc& _Al, tuple&& _Right)
+        constexpr tuple(allocator_arg_t, const _Alloc& _Al, tuple&& _Right)
             : tuple(_Alloc_unpack_tuple_t{}, _Al, nonstd:: move(_Right)) {}
 
 
@@ -314,7 +314,7 @@ namespace nonstd{
             enable_if_t<conjunction_v<nonstd:: _Tuple_constructible_val<tuple, const _Other&...>,
             nonstd:: _Tuple_convert_val<tuple, const tuple<_Other...>&, _Other...>>,
             int> = 0>
-            _CONSTEXPR20 explicit(_Tuple_conditional_explicit_v<tuple, const _Other&...>)
+            constexpr explicit(_Tuple_conditional_explicit_v<tuple, const _Other&...>)
             tuple(allocator_arg_t, const _Alloc& _Al, const tuple<_Other...>& _Right)
             : tuple(_Alloc_unpack_tuple_t{}, _Al, _Right) {}
 
@@ -322,20 +322,20 @@ namespace nonstd{
             enable_if_t<conjunction_v<nonstd:: _Tuple_constructible_val<tuple, _Other...>,
             nonstd:: _Tuple_convert_val<tuple, tuple<_Other...>, _Other...>>,
             int> = 0>
-            _CONSTEXPR20 explicit(_Tuple_conditional_explicit_v<tuple, _Other...>)
+            constexpr explicit(_Tuple_conditional_explicit_v<tuple, _Other...>)
             tuple(allocator_arg_t, const _Alloc& _Al, tuple<_Other...>&& _Right)
             : tuple(_Alloc_unpack_tuple_t{}, _Al, nonstd:: move(_Right)) {}
 
 
         template <class _Alloc, class _First, class _Second,
             enable_if_t<_Tuple_constructible_v<tuple, const _First&, const _Second&>, int> = 0>
-        _CONSTEXPR20 explicit(_Tuple_conditional_explicit_v<tuple, const _First&, const _Second&>)
+        constexpr explicit(_Tuple_conditional_explicit_v<tuple, const _First&, const _Second&>)
             tuple(allocator_arg_t, const _Alloc& _Al, const pair<_First, _Second>& _Right)
             : tuple(_Alloc_unpack_tuple_t{}, _Al, _Right) {}
 
         template <class _Alloc, class _First, class _Second,
             enable_if_t<_Tuple_constructible_v<tuple, _First, _Second>, int> = 0>
-        _CONSTEXPR20 explicit(_Tuple_conditional_explicit_v<tuple, _First, _Second>)
+        constexpr explicit(_Tuple_conditional_explicit_v<tuple, _First, _Second>)
             tuple(allocator_arg_t, const _Alloc& _Al, pair<_First, _Second>&& _Right)
             : tuple(_Alloc_unpack_tuple_t{}, _Al, nonstd:: move(_Right)) {}
 
@@ -347,7 +347,7 @@ namespace nonstd{
             enable_if_t<conjunction_v<nonstd:: _Is_copy_assignable_no_precondition_check<_This2>,
             nonstd:: _Is_copy_assignable_no_precondition_check<_Rest>...>,
             int> = 0>
-        _CONSTEXPR20 tuple& operator=(_Identity_t<const _Myself&> _Right) noexcept(
+        constexpr tuple& operator=(_Identity_t<const _Myself&> _Right) noexcept(
             conjunction_v<is_nothrow_copy_assignable<_This2>, is_nothrow_copy_assignable<_Rest>...>) /* strengthened */ {
             _Myfirst._Val = _Right._Myfirst._Val;
             _Get_rest() = _Right._Get_rest();
@@ -359,7 +359,7 @@ namespace nonstd{
             enable_if_t<conjunction_v<nonstd:: _Is_move_assignable_no_precondition_check<_This2>,
             nonstd:: _Is_move_assignable_no_precondition_check<_Rest>...>,
             int> = 0>
-        _CONSTEXPR20 tuple& operator=(_Identity_t<_Myself&&> _Right) noexcept(
+        constexpr tuple& operator=(_Identity_t<_Myself&&> _Right) noexcept(
             conjunction_v<is_nothrow_move_assignable<_This2>, is_nothrow_move_assignable<_Rest>...>) {
             _Myfirst._Val = nonstd:: forward<_This>(_Right._Myfirst._Val);
             _Get_rest() = nonstd:: forward<_Mybase>(_Right._Get_rest());
@@ -371,7 +371,7 @@ namespace nonstd{
         template <class... _Other, enable_if_t<conjunction_v<nonstd:: negation<nonstd:: is_same<tuple, nonstd:: tuple<_Other...>>>,
             nonstd:: _Tuple_assignable_val<tuple, const _Other&...>>,
             int> = 0>
-        _CONSTEXPR20 tuple& operator=(const tuple<_Other...>& _Right) noexcept(
+        constexpr tuple& operator=(const tuple<_Other...>& _Right) noexcept(
             _Tuple_nothrow_assignable_v<tuple, const _Other&...>) /* strengthened */ {
             _Myfirst._Val = _Right._Myfirst._Val;
             _Get_rest() = _Right._Get_rest();
@@ -383,7 +383,7 @@ namespace nonstd{
         template <class... _Other, enable_if_t<conjunction_v<nonstd:: negation<nonstd:: is_same<tuple, nonstd:: tuple<_Other...>>>,
             nonstd:: _Tuple_assignable_val<tuple, _Other...>>,
             int> = 0>
-        _CONSTEXPR20 tuple& operator=(tuple<_Other...>&& _Right) noexcept(
+        constexpr tuple& operator=(tuple<_Other...>&& _Right) noexcept(
             _Tuple_nothrow_assignable_v<tuple, _Other...>) /* strengthened */ {
             _Myfirst._Val = nonstd:: forward<typename tuple<_Other...>::_This_type>(_Right._Myfirst._Val);
             _Get_rest() = nonstd:: forward<typename tuple<_Other...>::_Mybase>(_Right._Get_rest());
@@ -394,7 +394,7 @@ namespace nonstd{
 
         template <class _First, class _Second,
             enable_if_t<_Tuple_assignable_v<tuple, const _First&, const _Second&>, int> = 0>
-        _CONSTEXPR20 tuple& operator=(const pair<_First, _Second>& _Right) noexcept(
+        constexpr tuple& operator=(const pair<_First, _Second>& _Right) noexcept(
             _Tuple_nothrow_assignable_v<tuple, const _First&, const _Second&>) /* strengthened */ {
             _Myfirst._Val = _Right.first;
             _Get_rest()._Myfirst._Val = _Right.second;
@@ -404,7 +404,7 @@ namespace nonstd{
 
 
         template <class _First, class _Second, enable_if_t<_Tuple_assignable_v<tuple, _First, _Second>, int> = 0>
-        _CONSTEXPR20 tuple& operator=(pair<_First, _Second>&& _Right) noexcept(
+        constexpr tuple& operator=(pair<_First, _Second>&& _Right) noexcept(
             _Tuple_nothrow_assignable_v<tuple, _First, _Second>) /* strengthened */ {
             _Myfirst._Val = nonstd:: forward<_First>(_Right.first);
             _Get_rest()._Myfirst._Val = nonstd:: forward<_Second>(_Right.second);
@@ -413,7 +413,7 @@ namespace nonstd{
 
 
 
-        _CONSTEXPR20 void swap(tuple& _Right) noexcept(
+        constexpr void swap(tuple& _Right) noexcept(
             conjunction_v<_Is_nothrow_swappable<_This>, _Is_nothrow_swappable<_Rest>...>) {
             _Swap_adl(_Myfirst._Val, _Right._Myfirst._Val);
             _Mybase::swap(_Right._Get_rest());
@@ -507,7 +507,7 @@ namespace nonstd{
 
 
     template <class... _Types, enable_if_t<conjunction_v<_Is_swappable<_Types>...>, int> = 0>
-    _CONSTEXPR20 void swap(tuple<_Types...>& _Left, tuple<_Types...>& _Right) noexcept(noexcept(_Left.swap(_Right))) {
+    constexpr void swap(tuple<_Types...>& _Left, tuple<_Types...>& _Right) noexcept(noexcept(_Left.swap(_Right))) {
         _Left.swap(_Right);
     }
 

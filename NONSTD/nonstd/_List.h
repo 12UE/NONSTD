@@ -1,6 +1,6 @@
 #pragma once
 namespace nonstd {
-    template <class T, class Allocator = allcator<T>>
+    template <class T, class Allocator = allocator<T>>
     class list : public vector<T, Allocator> {
     public:
         using iterator = typename vector<T, Allocator>::iterator;

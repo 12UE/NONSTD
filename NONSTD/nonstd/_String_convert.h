@@ -448,9 +448,9 @@ namespace nonstd {
     }
 
     [[nodiscard]] inline string to_string(double _Val) {
-        const auto _Len = static_cast<size_t>(_CSTD _scprintf("%f", _Val));
+        const auto _Len = static_cast<size_t>(::_scprintf("%f", _Val));
         nonstd::string _Str(_Len, '\0');
-        _CSTD sprintf_s(&_Str[0], _Len + 1, "%f", _Val);
+        ::sprintf_s(&_Str[0], _Len + 1, "%f", _Val);
         return _Str;
     }
 

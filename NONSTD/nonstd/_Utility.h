@@ -48,12 +48,12 @@ namespace nonstd {
     _NODISCARD constexpr _Ty(_min)(nonstd::initializer_list<_Ty>); // implemented in <algorithm>
 
     template <class _FwdIt1, class _FwdIt2>
-    _CONSTEXPR20 void iter_swap(_FwdIt1 _Left, _FwdIt2 _Right) { // swap *_Left and *_Right
+    constexpr void iter_swap(_FwdIt1 _Left, _FwdIt2 _Right) { // swap *_Left and *_Right
         nonstd::swap(*_Left, *_Right);
     }
 
     template <class _Ty, size_t _Size, enable_if_t<_Is_swappable<_Ty>::value, int> _Enabled>
-    _CONSTEXPR20 void swap(_Ty(&_Left)[_Size], _Ty(&_Right)[_Size]) noexcept(_Is_nothrow_swappable<_Ty>::value) {
+    constexpr void swap(_Ty(&_Left)[_Size], _Ty(&_Right)[_Size]) noexcept(_Is_nothrow_swappable<_Ty>::value) {
         if (&_Left != &_Right) {
             _Ty* _First1 = _Left;
             _Ty* _Last1 = _First1 + _Size;
@@ -69,7 +69,7 @@ namespace nonstd {
     #else // ^^^ _HAS_CXX17 / !_HAS_CXX17 vvv
     template <class _Ty, int _Enabled>
     #endif // _HAS_CXX17
-    _CONSTEXPR20 void swap(_Ty& _Left, _Ty& _Right) noexcept(
+    constexpr void swap(_Ty& _Left, _Ty& _Right) noexcept(
         is_nothrow_move_constructible_v<_Ty>&& is_nothrow_move_assignable_v<_Ty>) {
         _Ty _Tmp = nonstd:: move(_Left);
         _Left = nonstd:: move(_Right);
@@ -77,7 +77,7 @@ namespace nonstd {
     }
 
     template <class _Ty>
-    _CONSTEXPR20 void _Swap_adl(_Ty& _Left, _Ty& _Right) noexcept(_Is_nothrow_swappable<_Ty>::value) {
+    constexpr void _Swap_adl(_Ty& _Left, _Ty& _Right) noexcept(_Is_nothrow_swappable<_Ty>::value) {
         swap(_Left, _Right);
     }
 
@@ -134,11 +134,7 @@ namespace nonstd {
                 is_nothrow_copy_constructible_v<_Uty1>&& is_nothrow_copy_constructible_v<_Uty2>) // strengthened
             : first(_Val1), second(_Val2) {}
 
-    #if _HAS_CXX23
-        template <class _Other1 = _Ty1, class _Other2 = _Ty2,
-    #else // ^^^ _HAS_CXX23 / !_HAS_CXX23 vvv
         template <class _Other1, class _Other2,
-    #endif // ^^^ !_HAS_CXX23 ^^^
             enable_if_t<conjunction_v<is_constructible<_Ty1, _Other1>, is_constructible<_Ty2, _Other2>>, int> = 0>
         constexpr explicit(!conjunction_v<is_convertible<_Other1, _Ty1>, is_convertible<_Other2, _Ty2>>)
             pair(_Other1&& _Val1, _Other2&& _Val2) noexcept(
@@ -149,14 +145,7 @@ namespace nonstd {
         pair(const pair&) = default;
         pair(pair&&) = default;
 
-    #if _HAS_CXX23
-        template <class _Other1, class _Other2,
-            enable_if_t<conjunction_v<is_constructible<_Ty1, _Other1&>, is_constructible<_Ty2, _Other2&>>, int> = 0>
-        constexpr explicit(!conjunction_v<is_convertible<_Other1&, _Ty1>, is_convertible<_Other2&, _Ty2>>)
-            pair(pair<_Other1, _Other2>& _Right) noexcept(
-                is_nothrow_constructible_v<_Ty1, _Other1&>&& is_nothrow_constructible_v<_Ty2, _Other2&>) // strengthened
-            : first(_Right.first), second(_Right.second) {}
-    #endif // _HAS_CXX23
+
 
         template <class _Other1, class _Other2,
             enable_if_t<conjunction_v<is_constructible<_Ty1, const _Other1&>, is_constructible<_Ty2, const _Other2&>>,
@@ -188,7 +177,7 @@ namespace nonstd {
             : first(_Tuple_get<_Indexes1>(nonstd:: move(_Val1))...), second(_Tuple_get<_Indexes2>(nonstd:: move(_Val2))...) {}
 
         template <class... _Types1, class... _Types2>
-        _CONSTEXPR20 pair(piecewise_construct_t, tuple<_Types1...> _Val1, tuple<_Types2...> _Val2)
+        constexpr pair(piecewise_construct_t, tuple<_Types1...> _Val1, tuple<_Types2...> _Val2)
             : pair(_Val1, _Val2, index_sequence_for<_Types1...>{}, index_sequence_for<_Types2...>{}) {}
 
         pair& operator=(const volatile pair&) = delete;
@@ -197,7 +186,7 @@ namespace nonstd {
             enable_if_t<conjunction_v<_Is_copy_assignable_no_precondition_check<typename _Myself::first_type>,
             _Is_copy_assignable_no_precondition_check<typename _Myself::second_type>>,
             int> = 0>
-            _CONSTEXPR20 pair& operator=(_Identity_t<const _Myself&> _Right) noexcept(
+            constexpr pair& operator=(_Identity_t<const _Myself&> _Right) noexcept(
                 conjunction_v<is_nothrow_copy_assignable<_Ty1>, is_nothrow_copy_assignable<_Ty2>>) /* strengthened */ {
             first = _Right.first;
             second = _Right.second;
@@ -222,7 +211,7 @@ namespace nonstd {
             enable_if_t<conjunction_v<_Is_move_assignable_no_precondition_check<typename _Myself::first_type>,
             _Is_move_assignable_no_precondition_check<typename _Myself::second_type>>,
             int> = 0>
-            _CONSTEXPR20 pair& operator=(_Identity_t<_Myself&&> _Right) noexcept(
+            constexpr pair& operator=(_Identity_t<_Myself&&> _Right) noexcept(
                 conjunction_v<is_nothrow_move_assignable<_Ty1>, is_nothrow_move_assignable<_Ty2>>) /* strengthened */ {
             first = nonstd:: forward<_Ty1>(_Right.first);
             second = nonstd:: forward<_Ty2>(_Right.second);
@@ -247,7 +236,7 @@ namespace nonstd {
             enable_if_t<conjunction_v<negation<is_same<pair, pair<_Other1, _Other2>>>, is_assignable<_Ty1&, const _Other1&>,
             is_assignable<_Ty2&, const _Other2&>>,
             int> = 0>
-            _CONSTEXPR20 pair& operator=(const pair<_Other1, _Other2>& _Right) noexcept(
+            constexpr pair& operator=(const pair<_Other1, _Other2>& _Right) noexcept(
                 is_nothrow_assignable_v<_Ty1&, const _Other1&>&&
                 is_nothrow_assignable_v<_Ty2&, const _Other2&>) /* strengthened */ {
             first = _Right.first;
@@ -273,7 +262,7 @@ namespace nonstd {
             enable_if_t<conjunction_v<negation<is_same<pair, pair<_Other1, _Other2>>>, is_assignable<_Ty1&, _Other1>,
             is_assignable<_Ty2&, _Other2>>,
             int> = 0>
-            _CONSTEXPR20 pair& operator=(pair<_Other1, _Other2>&& _Right) noexcept(
+            constexpr pair& operator=(pair<_Other1, _Other2>&& _Right) noexcept(
                 is_nothrow_assignable_v<_Ty1&, _Other1>&& is_nothrow_assignable_v<_Ty2&, _Other2>) /* strengthened */ {
             first = nonstd:: forward<_Other1>(_Right.first);
             second = nonstd:: forward<_Other2>(_Right.second);
@@ -294,7 +283,7 @@ namespace nonstd {
         }
     #endif // _HAS_CXX23
 
-        _CONSTEXPR20 void swap(pair& _Right) noexcept(
+        constexpr void swap(pair& _Right) noexcept(
             _Is_nothrow_swappable<_Ty1>::value&& _Is_nothrow_swappable<_Ty2>::value) {
             if (this != nonstd:: addressof(_Right)) {
                 _Swap_adl(first, _Right.first);
@@ -323,7 +312,7 @@ namespace nonstd {
     #endif // _HAS_CXX17
 
     template <class _Ty1, class _Ty2, enable_if_t<_Is_swappable<_Ty1>::value&& _Is_swappable<_Ty2>::value, int> = 0>
-    _CONSTEXPR20 void swap(pair<_Ty1, _Ty2>& _Left, pair<_Ty1, _Ty2>& _Right) noexcept(noexcept(_Left.swap(_Right))) {
+    constexpr void swap(pair<_Ty1, _Ty2>& _Left, pair<_Ty1, _Ty2>& _Right) noexcept(noexcept(_Left.swap(_Right))) {
         _Left.swap(_Right);
     }
 
@@ -382,24 +371,24 @@ namespace nonstd {
         return _Mypair(nonstd:: forward<_Ty1>(_Val1), nonstd:: forward<_Ty2>(_Val2));
     }
 
-    namespace _CXX20_DEPRECATE_REL_OPS rel_ops {
+    namespace rel_ops {
         template <class _Ty>
-        _CXX20_DEPRECATE_REL_OPS _NODISCARD bool operator!=(const _Ty& _Left, const _Ty& _Right) {
+        _NODISCARD bool operator!=(const _Ty& _Left, const _Ty& _Right) {
             return !(_Left == _Right);
         }
 
         template <class _Ty>
-        _CXX20_DEPRECATE_REL_OPS _NODISCARD bool operator>(const _Ty& _Left, const _Ty& _Right) {
+        _NODISCARD bool operator>(const _Ty& _Left, const _Ty& _Right) {
             return _Right < _Left;
         }
 
         template <class _Ty>
-        _CXX20_DEPRECATE_REL_OPS _NODISCARD bool operator<=(const _Ty& _Left, const _Ty& _Right) {
+        _NODISCARD bool operator<=(const _Ty& _Left, const _Ty& _Right) {
             return !(_Right < _Left);
         }
 
         template <class _Ty>
-        _CXX20_DEPRECATE_REL_OPS _NODISCARD bool operator>=(const _Ty& _Left, const _Ty& _Right) {
+        _NODISCARD bool operator>=(const _Ty& _Left, const _Ty& _Right) {
             return !(_Left < _Right);
         }
     } // namespace rel_ops
@@ -418,10 +407,10 @@ namespace nonstd {
     struct tuple_size<const _Tuple> : _Tuple_size_sfinae<_Tuple> {}; // ignore cv
 
     template <class _Tuple>
-    struct _CXX20_DEPRECATE_VOLATILE tuple_size<volatile _Tuple> : _Tuple_size_sfinae<_Tuple> {}; // ignore cv
+    struct tuple_size<volatile _Tuple> : _Tuple_size_sfinae<_Tuple> {}; // ignore cv
 
     template <class _Tuple>
-    struct _CXX20_DEPRECATE_VOLATILE tuple_size<const volatile _Tuple> : _Tuple_size_sfinae<_Tuple> {}; // ignore cv
+    struct tuple_size<const volatile _Tuple> : _Tuple_size_sfinae<_Tuple> {}; // ignore cv
 
     template <class _Ty>
     _INLINE_VAR constexpr size_t tuple_size_v = tuple_size<_Ty>::value;
@@ -430,20 +419,20 @@ namespace nonstd {
     struct tuple_element;
 
     template <size_t _Index, class _Tuple>
-    struct _MSVC_KNOWN_SEMANTICS tuple_element<_Index, const _Tuple> : tuple_element<_Index, _Tuple> {
+    struct [[msvc::known_semantics]]tuple_element<_Index, const _Tuple> : tuple_element<_Index, _Tuple> {
         using _Mybase = tuple_element<_Index, _Tuple>;
         using type = add_const_t<typename _Mybase::type>;
     };
 
     template <size_t _Index, class _Tuple>
-    struct _CXX20_DEPRECATE_VOLATILE _MSVC_KNOWN_SEMANTICS tuple_element<_Index, volatile _Tuple>
+    struct [[msvc::known_semantics]]tuple_element<_Index, volatile _Tuple>
         : tuple_element<_Index, _Tuple>{
         using _Mybase = tuple_element<_Index, _Tuple>;
         using type = add_volatile_t<typename _Mybase::type>;
     };
 
     template <size_t _Index, class _Tuple>
-    struct _CXX20_DEPRECATE_VOLATILE _MSVC_KNOWN_SEMANTICS tuple_element<_Index, const volatile _Tuple>
+    struct [[msvc::known_semantics]]tuple_element<_Index, const volatile _Tuple>
         : tuple_element<_Index, _Tuple>{
         using _Mybase = tuple_element<_Index, _Tuple>;
         using type = add_cv_t<typename _Mybase::type>;
@@ -459,7 +448,7 @@ namespace nonstd {
     struct tuple_size<array<_Ty, _Size>> : integral_constant<size_t, _Size> {}; // size of array
 
     template <size_t _Idx, class _Ty, size_t _Size>
-    struct _MSVC_KNOWN_SEMANTICS tuple_element<_Idx, array<_Ty, _Size>> {
+    struct [[msvc::known_semantics]]tuple_element<_Idx, array<_Ty, _Size>> {
         static_assert(_Idx < _Size, "array index out of bounds");
 
         using type = _Ty;
@@ -469,26 +458,26 @@ namespace nonstd {
     struct tuple_size<tuple<_Types...>> : integral_constant<size_t, sizeof...(_Types)> {}; // size of tuple
 
     template <size_t _Index>
-    struct _MSVC_KNOWN_SEMANTICS tuple_element<_Index, tuple<>> { // enforce bounds checking
+    struct [[msvc::known_semantics]]tuple_element<_Index, tuple<>> { // enforce bounds checking
         static_assert(_Always_false<integral_constant<size_t, _Index>>, "tuple index out of bounds");
     };
 
     template <class _This, class... _Rest>
-    struct _MSVC_KNOWN_SEMANTICS tuple_element<0, tuple<_This, _Rest...>> { // select first element
+    struct [[msvc::known_semantics]]tuple_element<0, tuple<_This, _Rest...>> { // select first element
         using type = _This;
         // MSVC assumes the meaning of _Ttype; remove or rename, but do not change semantics
         using _Ttype = tuple<_This, _Rest...>;
     };
 
     template <size_t _Index, class _This, class... _Rest>
-    struct _MSVC_KNOWN_SEMANTICS tuple_element<_Index, tuple<_This, _Rest...>>
+    struct [[msvc::known_semantics]]tuple_element<_Index, tuple<_This, _Rest...>>
         : tuple_element<_Index - 1, tuple<_Rest...>> {}; // recursive tuple_element definition
 
     template <class _Ty1, class _Ty2>
     struct tuple_size<pair<_Ty1, _Ty2>> : integral_constant<size_t, 2> {}; // size of pair
 
     template <size_t _Idx, class _Ty1, class _Ty2>
-    struct _MSVC_KNOWN_SEMANTICS tuple_element<_Idx, pair<_Ty1, _Ty2>> {
+    struct [[msvc::known_semantics]]tuple_element<_Idx, pair<_Ty1, _Ty2>> {
         static_assert(_Idx < 2, "pair index out of bounds");
 
         using type = conditional_t<_Idx == 0, _Ty1, _Ty2>;
@@ -587,7 +576,7 @@ namespace nonstd {
     }
 
     template <class _Ty, class _Other = _Ty>
-    _CONSTEXPR20 _Ty exchange(_Ty& _Val, _Other&& _New_val) noexcept(
+    constexpr _Ty exchange(_Ty& _Val, _Other&& _New_val) noexcept(
         conjunction_v<is_nothrow_move_constructible<_Ty>, is_nothrow_assignable<_Ty&, _Other>>) {
         // assign _New_val to _Val, return previous _Val
         _Ty _Old_val = static_cast<_Ty&&>(_Val);

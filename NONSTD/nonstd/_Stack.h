@@ -1,6 +1,6 @@
 #pragma once
 namespace nonstd {
-    template <class T, class Allocator = allcator<T>>
+    template <class T, class Allocator = allocator<T>>
     class stack : public vector<T, Allocator> {
     public:
         _INLINE void push(const T& value) {

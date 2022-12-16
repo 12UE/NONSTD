@@ -13,4 +13,32 @@ namespace nonstd {
 #define _UNLIKELY [[unlikely]]
 #define _CONSTEXPR constexpr
 
+using max_align_t = double; // most aligned type
+#define _EMPTY_ARGUMENT // for empty macro argument
+#define _CLASS_DEFINE_CV_REF_NOEXCEPT(CLASS) \
+    CLASS(_EMPTY_ARGUMENT)                   \
+    CLASS(const)                             \
+    CLASS(volatile)                          \
+    CLASS(const volatile)                    \
+    CLASS(&)                                 \
+    CLASS(const&)                            \
+    CLASS(volatile&)                         \
+    CLASS(const volatile&)                   \
+    CLASS(&&)                                \
+    CLASS(const&&)                           \
+    CLASS(volatile&&)                        \
+    CLASS(const volatile&&)                  \
+    CLASS(noexcept)                          \
+    CLASS(const noexcept)                    \
+    CLASS(volatile noexcept)                 \
+    CLASS(const volatile noexcept)           \
+    CLASS(&noexcept)                         \
+    CLASS(const& noexcept)                   \
+    CLASS(volatile& noexcept)                \
+    CLASS(const volatile& noexcept)          \
+    CLASS(&&noexcept)                        \
+    CLASS(const&& noexcept)                  \
+    CLASS(volatile&& noexcept)               \
+    CLASS(const volatile&& noexcept)
+
 }

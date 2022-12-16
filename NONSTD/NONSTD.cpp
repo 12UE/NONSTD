@@ -1,17 +1,17 @@
 ﻿// NONSTD.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
 #include<Windows.h>
-#include <iostream>
+#include<stdio.h>
+//#include <iostream>
 #include"nonstd/_Predefine.h"
 #include"SimpleClock.h"
-#include<utility>
+//#include<utility>
 //使用
 
-
+#include<map>
 template <typename T> requires nonstd::is_arithmetic_v<T>
 void f(T i, T k)
 {
-	std::cout << i + k << std::endl;
 
 }
 class player {
@@ -19,25 +19,35 @@ public:
 	float health;
 	player(float value) {
 		health = value;
-		std::cout << "player::player()" << std::endl;
+		printf("player::player()\n");
 	}
 	~player() {
-		std::cout << "player::~player()" << std::endl;
+		printf("player::~player()\n");
 	}
 	void ShowHealth() {
-		std::cout <<"health " << health << std::endl;
+
 	}
 };
-void print_num(int i)
-{
-	std::cout << i << '\n';
-}
+																					  
 
+
+																						  
 int main()
 {
+	nonstd::string str = "Hello World";
+	nonstd::vector<nonstd::string> vec;
+	for (int i = 0; i < 10; i++) {
+		vec.push_back(str);
+	}
 	
-	auto t1 = nonstd::make_tuple(1, "hello", 3, 4);
-	std::cout << nonstd::get<1>(t1) << std::endl;
+	
+	//打印
+	for (auto& i : vec) {
+		printf("%s\n", i.c_str());
+	}
+
+	
+	return 0;
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
