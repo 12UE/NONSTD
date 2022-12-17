@@ -98,9 +98,6 @@
     <ClInclude Include="nonstd\_Traits.h">
       <Filter>头文件\nonstd</Filter>
     </ClInclude>
-    <ClInclude Include="nonstd\_Initializer_list.h">
-      <Filter>头文件\nonstd</Filter>
-    </ClInclude>
     <ClInclude Include="nonstd\_NonStdMacros.h">
       <Filter>头文件\nonstd</Filter>
     </ClInclude>
@@ -120,6 +117,12 @@
       <Filter>头文件\nonstd</Filter>
     </ClInclude>
     <ClInclude Include="nonstd\_Compare.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="G:\Codes\SimpleDriver\SimpleDriver\nonstd\_Initializer_list.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="rbtree.h">
       <Filter>头文件\nonstd</Filter>
     </ClInclude>
   </ItemGroup>

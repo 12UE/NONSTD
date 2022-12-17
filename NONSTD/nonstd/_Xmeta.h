@@ -605,6 +605,24 @@ namespace nonstd {
 	struct is_array : bool_constant<is_array_v<_Ty>> {};
 	
 	template <class>
+	inline constexpr bool is_bounded_array_v = false;
+
+	template <class _Ty, size_t _Nx>
+	inline constexpr bool is_bounded_array_v<_Ty[_Nx]> = true;
+
+	template <class _Ty>
+	struct is_bounded_array : bool_constant<is_bounded_array_v<_Ty>> {};
+
+	template <class>
+	inline constexpr bool is_unbounded_array_v = false;
+
+	template <class _Ty>
+	inline constexpr bool is_unbounded_array_v<_Ty[]> = true;
+
+	template <class _Ty>
+	struct is_unbounded_array : bool_constant<is_unbounded_array_v<_Ty>> {};
+
+	template <class>
 	_INLINE_VAR constexpr bool is_lvalue_reference_v = false; // determine whether type argument is an lvalue reference
 
 	template <class _Ty>

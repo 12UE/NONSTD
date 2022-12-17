@@ -63,7 +63,7 @@ namespace nonstd {
 		}
 		__forceinline constexpr void _copy() noexcept {
 			constexpr detail::string_storage<T, Keys::key...> storage{};
-			static_cast<void>(initializer_list<uint64_t>{(const_cast<uint64_t*>(_storage))[Keys::idx] = storage.storage[Keys::idx]... });
+			static_cast<void>(std::initializer_list<uint64_t>{(const_cast<uint64_t*>(_storage))[Keys::idx] = storage.storage[Keys::idx]... });
 		}
 	public:
 		using value_type = typename T::value_type;
@@ -74,7 +74,7 @@ namespace nonstd {
 		__forceinline constexpr size_type size() const noexcept { return T::size - 1; }
 		__forceinline void crypt() noexcept {
 			alignas(T::buffer_align) uint64_t keys[T::buffer_size]{};
-			static_cast<void>(nonstd::initializer_list<nonstd::uint64_t>{( const_cast<nonstd::uint64_t*>(keys) )[Keys::idx] = Keys::key... });
+			static_cast<void>(std::initializer_list<nonstd::uint64_t>{( const_cast<nonstd::uint64_t*>(keys) )[Keys::idx] = Keys::key... });
 			_copy();
 			_crypt_256(keys, make_index_sequence<T::buffer_size / 4>{});
 			if constexpr (T::buffer_size % 4 != 0) _crypt_128(keys, index_sequence<T::buffer_size / 2 - 1>{});

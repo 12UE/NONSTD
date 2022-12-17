@@ -4,49 +4,35 @@
 #include<stdio.h>
 #include <iostream>
 #include"nonstd/_Predefine.h"
-#include"SimpleClock.h"
-//#include<utility>
-//使用
+#include<initializer_list>
+#include"rbtree.h"
 
-#include<map>
-template <typename T> requires nonstd::is_arithmetic_v<T>
-void f(T i, T k)
-{
 
+
+
+int main() {
+    
+    RBTree rbt;
+    
+	rbt.Insert(66);
+
+	rbt.Insert(58);
+    
+	rbt.Insert(47);
+
+	rbt.Insert(35);
+
+    //查找
+	RBTreeNode* node = rbt.Find(75);
+    if (node != nullptr) {
+		printf("查找到了节点：%d\n", node->nData);
+	}
+	else {
+		printf("没有找到节点\n");
+    }
+       
+    
+    
+    return 0;
 }
-class player {
-public:
-	float health;
-	player(float value) {
-		health = value;
-		printf("player::player()\n");
-	}
-	~player() {
-		printf("player::~player()\n");
-	}
-	void ShowHealth() {
-
-	}
-};
-																					  
-
-
 																						  
-int main()
-{
-	
-	std::cout << xor_str("Hello Wolrd") << std::endl;
-	
-	return 0;
-}
-
-// 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
-// 调试程序: F5 或调试 >“开始调试”菜单
-
-// 入门使用技巧: 
-//   1. 使用解决方案资源管理器窗口添加/管理文件
-//   2. 使用团队资源管理器窗口连接到源代码管理
-//   3. 使用输出窗口查看生成输出和其他消息
-//   4. 使用错误列表窗口查看错误
-//   5. 转到“项目”>“添加新项”以创建新的代码文件，或转到“项目”>“添加现有项”以将现有代码文件添加到项目
-//   6. 将来，若要再次打开此项目，请转到“文件”>“打开”>“项目”并选择 .sln 文件

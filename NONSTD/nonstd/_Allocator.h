@@ -77,3 +77,25 @@ namespace nonstd {
 		_INLINE static bool CheckAddr(T* addr) { return addr != nullptr && MmIsAddressValid((PVOID)addr); }
 	};
 }
+
+/*
+* template<class T>
+	class allocator {//ÄÚ´æ·ÖÅäÆ÷
+		using __byte = unsigned char;
+	public:
+		using allocator_type = T;
+		_INLINE static T* Alloc(size_t nSize);
+		_INLINE static void Free(T* ptr) ;
+		_INLINE static void Free(T* ptr, size_t nSize);
+		_INLINE static void copy(T* dest, T* src, size_t nSize) ;
+		_INLINE static void move(T* dest, T* src, size_t nSize);
+		_INLINE  static void fill(T* first, T* last, const T& value);
+		_INLINE static void fill_n(T* first, size_t n, const T& value) ;
+		_INLINE  static void construct(T* p, const T& value) ;
+		_INLINE  static void destroy(T* p) ;
+		template<class... Args>static void construct(T* p, Args&&... args)
+		_INLINE static int  max_size() ;
+		_INLINE static int compare(const T* first, const T* last, size_t nSize);
+		_INLINE static bool CheckAddr(T* addr);
+	};
+*/
