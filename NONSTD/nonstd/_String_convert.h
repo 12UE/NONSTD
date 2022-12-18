@@ -450,7 +450,7 @@ namespace nonstd {
     [[nodiscard]] inline string to_string(double _Val) {
         const auto _Len = static_cast<size_t>(::_scprintf("%f", _Val));
         nonstd::string _Str(_Len, '\0');
-        ::sprintf_s(&_Str[0], _Len + 1, "%f", _Val);
+        ::sprintf_s(_Str.data(), _Len + 1, "%f", _Val);
         return _Str;
     }
 
@@ -489,7 +489,7 @@ namespace nonstd {
     [[nodiscard]] inline wstring to_wstring(double _Val) {
         const auto _Len = static_cast<size_t>(_scwprintf(L"%f", _Val));
         wstring _Str(_Len, L'\0');
-        swprintf_s(&_Str[0], _Len + 1, L"%f", _Val);
+        swprintf_s(_Str.data(), _Len + 1, L"%f", _Val);
         return _Str;
     }
 

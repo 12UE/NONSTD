@@ -15,8 +15,7 @@ namespace nonstd {
     public:
         RBTree();
         ~RBTree();
-    public:
-        virtual bool Insert(const T& nData);
+        bool Insert(const T& nData);
         bool Delete(const T& nData);
         RBTreeNode<T>* Find(const T& nData);
         RBTreeNode<T>* operator[](const T& nData);

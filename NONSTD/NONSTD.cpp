@@ -5,43 +5,24 @@
 #include <iostream>
 #include"nonstd/_Predefine.h"
 
-//重载pair的等号运算符
-template<class T1, class T2>
-bool operator==(const nonstd::pair<T1, T2>& lhs, const nonstd::pair<T1, T2>& rhs) {
-	return lhs.first == rhs.first;
-}
-
-template<class T1, class T2>
-bool operator<(const nonstd::pair<T1, T2>&lhs, const nonstd::pair<T1, T2>&rhs) {
-	return lhs.first <= rhs.first;
-}
 
 
 int main() {
     
+	nonstd::map<nonstd::string, int> map1;
+	map1.Insert({ "1",66 });
+	map1.Insert({ "2",77 });
+	map1.Insert({ "3",88 });
+	map1.Insert({ "4",99 });
+	map1.Insert({ "5",100 });
 
-	
-    nonstd::RBTree<nonstd::pair<int, int>> rbt;
-    
-    rbt.Insert({ 1, 1 });
-    
-	rbt.Insert({ 2, 2 });
-    
-	rbt.Insert({ 3, 3 });
-    
-	rbt.Insert({ 4, 4 });
-    
-    //查找
-	auto* node = rbt[{1,1}];
-    if (node != nullptr) {
-		printf("查找到了节点：%d\n", node->nData.second);
+	//查找3
+	auto it = map1.Find("3");
+	if (it != nullptr) {
+		printf("找到了3,值为:%d", it->nData.second);
+	}else {
+		printf("没找到!");
 	}
-	else {
-		printf("没有找到节点\n");
-    }
-       
-    
-    
-    return 0;
+	return 0;
 }
 																						  

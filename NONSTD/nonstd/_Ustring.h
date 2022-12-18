@@ -112,7 +112,8 @@ namespace nonstd {
 		_INLINE void tolower();//全部转换为小写
 
 		_INLINE void toupper();//全部转换为大写
-		_INLINE T at(size_t index);//返回指定位置的字符
+		
+		_INLINE T at(size_t index) const;//返回指定位置的字符
 
 		_INLINE void shrink_to_fit();//释放多余的内存
 
@@ -387,11 +388,13 @@ namespace nonstd {
 	inline T& basic_string<T, _Alloc>::operator[](size_t index) {
 		if (index >= 0 || index <= m_length) {
 			return m_str[index];
-		}
-		else {
+		}else {
 			return m_str[m_length];//返回结束符号
 		}
 	}
+
+
+	
 	template<class T, class _Alloc>
 	inline T* basic_string<T, _Alloc>::c_str() const { return m_str; }
 	
@@ -526,7 +529,7 @@ namespace nonstd {
 		}
 	}
 	template<class T, class _Alloc>
-	inline T basic_string<T, _Alloc>::at(size_t index) {
+	inline T basic_string<T, _Alloc>::at(size_t index) const {
 		if (index < 0 || index >= m_length) return endChar;
 		return m_str[index];
 	}
@@ -560,6 +563,18 @@ namespace nonstd {
 			return operator==(temp);
 		}
 	}
+	//重载operator<
+	template<class T, class _Alloc>
+	inline bool operator<(const basic_string<T, _Alloc>& str1,const basic_string<T, _Alloc>& str2) {
+		size_t length = str1.length() < str2.length() ? str1.length() : str2.length();
+		for (size_t i = 0; i < length; i++) {
+			if (str1.at(i) < str2.at(i))return true;
+			else if (str1.at(i) > str2.at(i))return false;
+		}
+		return str1.length() < str2.length();
+	}
+
+	
 	template<class T, class _Alloc>
 	inline void basic_string<T, _Alloc>::shrink_to_fit() {
 		if (m_length < m_capacity) {
