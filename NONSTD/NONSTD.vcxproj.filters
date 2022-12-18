@@ -122,7 +122,10 @@
     <ClInclude Include="G:\Codes\SimpleDriver\SimpleDriver\nonstd\_Initializer_list.h">
       <Filter>头文件\nonstd</Filter>
     </ClInclude>
-    <ClInclude Include="rbtree.h">
+    <ClInclude Include="nonstd\_RBTree.h">
+      <Filter>头文件\nonstd</Filter>
+    </ClInclude>
+    <ClInclude Include="nonstd\_Map.h">
       <Filter>头文件\nonstd</Filter>
     </ClInclude>
   </ItemGroup>

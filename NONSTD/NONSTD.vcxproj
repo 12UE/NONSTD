@@ -137,6 +137,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="G:\Codes\SimpleDriver\SimpleDriver\nonstd\_Initializer_list.h" />
+    <ClInclude Include="nonstd\_Map.h" />
+    <ClInclude Include="nonstd\_RBTree.h" />
     <ClInclude Include="nonstd\_Array.h" />
     <ClInclude Include="nonstd\_Compare.h" />
     <ClInclude Include="nonstd\_Functors.h" />
@@ -168,7 +170,6 @@
     <ClInclude Include="nonstd\_Weak_ptr.h" />
     <ClInclude Include="nonstd\_Allocator.h" />
     <ClInclude Include="nonstd\_Xmeta.h" />
-    <ClInclude Include="rbtree.h" />
     <ClInclude Include="SimpleClock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
