@@ -47,6 +47,7 @@
 #include"_Vector.h"
 #include"_List.h"	
 #include"_Stack.h"
+#include"_Queue.h"
 #include"_Deque.h"
 #include"_RBTree.h"
 #include"_Map.h"

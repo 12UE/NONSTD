@@ -7,22 +7,23 @@
 
 
 
+
 int main() {
     
-	nonstd::map<nonstd::string, int> map1;
-	map1.Insert({ "1",66 });
-	map1.Insert({ "2",77 });
-	map1.Insert({ "3",88 });
-	map1.Insert({ "4",99 });
-	map1.Insert({ "5",100 });
-
-	//查找3
-	auto it = map1.Find("3");
-	if (it != nullptr) {
-		printf("找到了3,值为:%d", it->nData.second);
-	}else {
-		printf("没找到!");
-	}
+	nonstd::map<int,int> obj;
+	obj.insert({ 1,1 });
+	obj.insert({ 2,2 });
+	obj.insert({ 4,3 });
+	obj.insert({ 4,4 });
+	
+	auto p = obj.find(2);
+	
+	std::cout << p->val.first << std::endl;
+	
+	std::cout << std::endl << std::endl;
+	obj.print();
+	
+	
 	return 0;
 }
 																						  

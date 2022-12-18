@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="G:\Codes\SimpleDriver\SimpleDriver\nonstd\_Initializer_list.h" />
     <ClInclude Include="nonstd\_Map.h" />
+    <ClInclude Include="nonstd\_Queue.h" />
     <ClInclude Include="nonstd\_RBTree.h" />
     <ClInclude Include="nonstd\_Array.h" />
     <ClInclude Include="nonstd\_Compare.h" />
