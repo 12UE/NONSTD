@@ -20,8 +20,9 @@ int main() {
 	
 	//std::cout << iter1->first << " " << iter1->second << std::endl;
 	
-	for (auto iter = obj.begin(); iter!= obj.end(); iter++) {
+	for (auto iter = obj.begin(); ; iter++) {
 		std::cout << iter->first << " " << iter->second << std::endl;
+		if (iter == obj.end()) break;
 	}
 	
 	//auto p = obj.find(2);

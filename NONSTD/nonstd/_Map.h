@@ -42,11 +42,11 @@ namespace nonstd {
 		private:
 			nodeptr current;
 			decltype(auto) Next(nodeptr& node) {
-				if (node == nullptr) return *this;
 				if (node->right) {
 					node = node->right;
 					while (node->left) node = node->left;
-				}else {
+				}
+				else {
 					auto parent = node->parent;
 					while (parent && node == parent->right) {
 						node = parent;
@@ -57,7 +57,6 @@ namespace nonstd {
 				return node;
 			}
 			decltype(auto) Prev(nodeptr& node) {
-				if (node == nullptr) return *this;
 				if (node->left) {
 					node = node->left;
 					while (node->right) node = node->right;
