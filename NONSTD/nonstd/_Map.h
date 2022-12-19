@@ -18,22 +18,62 @@ namespace nonstd {
 		}
 		void print(RBNode<T>* p) {
 			if (!p) return;
-
-			std::cout << "节点: " << p->val.first << " ";
-			if (p->left)
-			{
-				std::cout << "left:" << p->left->val.first << "->color:" << p->left->color << " ";
-			}
-			if (p->right)
-			{
-				std::cout << "right:" << p->right->val.first << "->color:" << p->right->color << " ";
-			}
-			std::cout << std::endl << std::endl;
-
 			print(p->left);
 			print(p->right);
 		}
-		RBNode<T>* find(const Tx& v1) {
+		class iterator{
+		public:
+			using value_type = nonstd::pair<Tx, Ty>;
+			using pointer = nonstd::pair<Tx, Ty>*;
+			using reference = nonstd::pair<Tx, Ty>&;
+			using iterator_category = nonstd::forward_iterator_tag;
+			using difference_type = nonstd::ptrdiff_t;
+			using nodeptr = RBNode<value_type>*;
+			iterator(nodeptr node = nullptr) : current(node) {}
+			reference operator*() const { return current->val; }
+			pointer operator->() const { return &current->val; }
+			operator nodeptr() const { return current; }
+			iterator operator++() { return Next(current);}
+			iterator operator++(int) { return ++(*this); }
+			iterator& operator--() {return Prev(current);}
+			iterator operator--(int) {return --(*this);}
+			bool operator==(const iterator& other) const { return current == other.current; }
+			bool operator!=(const iterator& other) const { return current != other.current; }
+		private:
+			nodeptr current;
+			decltype(auto) Next(nodeptr& node) {
+				if (node == nullptr) return *this;
+				if (node->right) {
+					node = node->right;
+					while (node->left) node = node->left;
+				}else {
+					auto parent = node->parent;
+					while (parent && node == parent->right) {
+						node = parent;
+						parent = parent->parent;
+					}
+					node = parent;
+				}
+				return node;
+			}
+			decltype(auto) Prev(nodeptr& node) {
+				if (node == nullptr) return *this;
+				if (node->left) {
+					node = node->left;
+					while (node->right) node = node->right;
+				}
+				else {
+					auto parent = node->parent;
+					while (parent && node == parent->left) {
+						node = parent;
+						parent = parent->parent;
+					}
+					node = parent;
+				}
+				return node;
+			}
+		};
+		iterator find(const Tx& v1) {
 			RBNode<T>* p = root;
 			RBNode<T>* node = nullptr;
 			while (p)
@@ -54,19 +94,20 @@ namespace nonstd {
 					p = p->left;
 				}
 			}
-			return node;
+			return iterator(node);
 		}
-		bool insert(const T& v1) {
+		iterator operator[](const Tx& v1) {return find(v1);}
+		iterator insert(const T& v1) {
 			RBNode<T>* newNode = new RBNode<T>(v1);
 			RBNode<T>* parent = find(v1.first);
 			if (parent == nullptr)
 			{//红黑树为空，当前插入的节点为根节点。插入后将根颜色变为黑
 				root = newNode;
 				root->color = _rb_black_node;
-				return true;
+				return newNode;
 			}
 			if (parent->val == v1)//v1已经存在红黑树中。不再插入
-				return false;
+				return newNode;
 
 			if (v1.first < parent->val.first)
 			{
@@ -76,15 +117,15 @@ namespace nonstd {
 			}
 			newNode->parent = parent;
 			InsertReBalance(newNode);
-			return true;
+			//更新endNode
+			
+			return newNode;
 		}
-		void	DeleteValue(const T& v1) {
+		iterator erase(iterator _p) {
 			RBNode<T>* nextNode = nullptr;
-			RBNode<T>* p = find(v1);
-			if (p == nullptr)
-			{
-				std::cout << "删除的值不存在" << std::endl;
-				return;
+			RBNode<T>* p = _p;
+			if (!p){
+				return iterator(p);
 			}
 			if (p->left && p->right)
 			{
@@ -104,6 +145,7 @@ namespace nonstd {
 				p->val = temp->val;
 				p->left = nullptr;
 				delete temp;
+				return iterator(temp);
 			}
 			else if (p->right)
 			{
@@ -112,6 +154,7 @@ namespace nonstd {
 				p->val = temp->val;
 				p->right = nullptr;
 				delete temp;
+				return iterator(temp);
 			}
 			else
 			{
@@ -130,9 +173,10 @@ namespace nonstd {
 					p->parent->right = nullptr;
 				}
 				delete p;
+				return iterator(p);
 			}
 		}
-		void	DeleteReblance(RBNode<T>* node) {
+		void DeleteReblance(RBNode<T>* node) {
 			RBNode<T>* parent = nullptr;
 			RBNode<T>* other = nullptr;
 			while (node->color == _rb_black_node && node->parent)
@@ -203,7 +247,7 @@ namespace nonstd {
 			}
 			node->color = _rb_black_node;
 		}
-		void	Destroy(RBNode<T>* p) {
+		void Destroy(RBNode<T>* p) {
 			if (p->left)
 			{
 				Destroy(p->left);
@@ -214,7 +258,7 @@ namespace nonstd {
 			}
 			delete p;
 		}
-		void	InsertReBalance(RBNode<T>* node) {
+		void InsertReBalance(RBNode<T>* node) {
 			RBNode<T>* parent = node->parent;
 			RBNode<T>* grandParent = nullptr;
 			while (parent && parent->color == _rb_red_node)
@@ -340,8 +384,19 @@ namespace nonstd {
 			x->parent = y;
 			return x;
 		}
+		iterator begin() { return iterator(Maxmiun<false>(root)); }
+		iterator end(){ return iterator(Maxmiun<true>(root));}
 	private:
 		RBNode<T>* root;
+		template<bool right> RBNode<T>* Maxmiun(RBNode<T>* _node) {
+			auto node = _node;
+			if constexpr (right) {
+				while (node&&node->right) node = node->right;
+			}else {
+				while (node&&node->left) node = node->left;
+			}
+			return node;
+		}
 	};
 	template<class Tx, class Ty>
 	using map = RBTree<nonstd::pair<Tx, Ty>>;

@@ -40,10 +40,10 @@ namespace nonstd {
         using iterator = vector<T, Allocator>::iterator;
         using const_iterator = vector<T, Allocator>::const_iterator;
         _INLINE iterator begin() {
-            return vector<T, Allocator>::m_data;
+            return vector<T, Allocator>::begin();
         }
         _INLINE const_iterator begin() const {
-            return vector<T, Allocator>::m_data;
+            return vector<T, Allocator>::cbegin();
         }
     };
 }

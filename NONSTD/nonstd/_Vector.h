@@ -207,7 +207,7 @@ namespace nonstd {
             return m_data[index];
         }
         //Ð´Ò»¸öerase
-        _CONSTEXPR _INLINE iterator erase(const_iterator pos) {
+        _CONSTEXPR _INLINE iterator erase(iterator pos) {
             if (pos < begin() || pos >= end()) {
                 DbgPrint("vector::erase!");
             }

@@ -10,18 +10,28 @@
 
 int main() {
     
-	nonstd::map<int,int> obj;
-	obj.insert({ 1,1 });
-	obj.insert({ 2,2 });
-	obj.insert({ 4,3 });
-	obj.insert({ 4,4 });
+	nonstd::map<int,std::string> obj;
+	obj.insert({ 1,"hello 1" });
+	obj.insert({ 2,"hello 2" });
+	obj.insert({ 3,"hello 3" });
+	obj.insert({ 4,"hello 4" });
+
+	//auto iter1 = obj[2];
 	
-	auto p = obj.find(2);
+	//std::cout << iter1->first << " " << iter1->second << std::endl;
 	
-	std::cout << p->val.first << std::endl;
+	for (auto iter = obj.begin(); iter!= obj.end(); iter++) {
+		std::cout << iter->first << " " << iter->second << std::endl;
+	}
 	
-	std::cout << std::endl << std::endl;
-	obj.print();
+	//auto p = obj.find(2);
+	//
+	//std::cout << p->val.second << std::endl;
+	//
+	//std::cout << std::endl << std::endl;
+	//obj.print();
+
+	
 	
 	
 	return 0;

@@ -30,7 +30,7 @@ namespace nonstd {
 		void	print(RBNode<T>* p);
 		RBNode<T>* find(const T& v1);
 		bool	insert(const T& v1);
-		void	DeleteValue(const T& v1);
+		void	erase(const T& v1);
 		void	DeleteReblance(RBNode<T>* node);
 		void	Destroy(RBNode<T>* p);
 		void	InsertReBalance(RBNode<T>* node);
@@ -309,7 +309,7 @@ namespace nonstd {
 	*
 	***/
 	template<typename T>
-	void RBTree<T>::DeleteValue(const T& v1){
+	void RBTree<T>::erase(const T& v1){
 		RBNode<T>* nextNode = nullptr;
 		RBNode<T>* p=find(v1);
 		if (p == nullptr)
